@@ -47,7 +47,7 @@ def test_from_source_type(source_type):
     for r in manifest_graph.query(query):
         test_id = r.test_id
         test_uri = r.test_uri
-        os.system("cp ./test-cases/" + test_id + "/* .")
+        os.system("cp ./rml-test-cases/test-cases/" + test_id + "/* .")
         if database:
             database_load(source_type)
         q2 = prepareQuery("ASK {<" + test_uri + "> <http://www.w3.org/2006/03/test-description#expectedResults>"
@@ -67,12 +67,13 @@ def run_test(t_identifier, expected_output, source_type):
     if expected_output:
         expected_output_graph.parse("./output.nq", format="nquads")
 
-    os.system(config["properties"]["engine_command"] + " > test-cases/" + t_identifier + "/engine_output-" + source_type + ".log")
+    os.system("mkdir results/" + t_identifier)
+    os.system(config["properties"]["engine_command"] + " > results/" + t_identifier + "/" + source_type + ".log")
 
     # if there is output file
     if os.path.isfile(config["properties"]["output_results"]):
         extension = config["properties"]["output_results"].split(".")[-1]
-        os.system("cp " + config["properties"]["output_results"] + "test-cases/" + t_identifier + "/engine_output-" + source_type + "." + extension)
+        os.system("cp " + config["properties"]["output_results"] + " results/" + t_identifier + "/output-" + source_type + "." + extension)
         # and expected output is true
         if expected_output:
             output_graph = ConjunctiveGraph()
@@ -186,13 +187,13 @@ if __name__ == "__main__":
     config.read(config_file)
     sources = config["properties"]["sources"].split(",")
     optimize_sparql()
-    manifest_graph = Graph(store=HDTStore("./metadata.hdt"))
+    manifest_graph = Graph(store=HDTStore("./rml-test-cases/metadata.hdt"))
 
     results = [["tester", "platform", "source", "testid", "result"]]
 
     failed = "failed"
     passed = "passed"
-
+    os.system("mkdir results")
     for source in sources:
         test_from_source_type(source)
 
