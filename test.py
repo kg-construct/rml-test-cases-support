@@ -169,6 +169,8 @@ def write_results():
         writer = csv.writer(file)
         writer.writerows(results)
 
+    os.system("rm " + config["properties"]["output_results"])
+    os.system("rm *.csv *.json *.xml *.sql mapping.ttl output.nq")
     os.system("java -jar rmlmapper.jar -m rules.ttl -o results.nt -d")
 
 
