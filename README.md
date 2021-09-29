@@ -16,8 +16,8 @@ Test the capabilities of your RML engine with the [RML test cases](http://rml.io
 
 ## RDBMS coverage and properties info:
 
-- MySQL (`port = 3306`)
-- PostgreSQL (`port = 5432`)
+- MySQL v8.0 (`port = 3306`)
+- PostgreSQL v13.4 (`port = 5432`)
 - SQLServer (not suppor at this moment)
 
 Connection properties for any RDBMS are: `database = rml, user = rml, password = rml`.
@@ -25,12 +25,12 @@ Connection properties for any RDBMS are: `database = rml, user = rml, password =
 For testing purposes, **mapping path is invariable, it is always `./mapping.ttl`**
 
 
-## Steps to generate the results from the R2RML test-cases:
+## Steps to generate the results from the RML test-cases:
 
 1. Create a submodule (recommended) or fork/clone/download this repository.
 2. Include a way to run your engine with the resources of this folder.
 3. Install the requirements of the script `python3 -m pip install -r requirements.txt`
-4. Modify the config.ini file with your information. For the correspoding configurating of your R2RML engine, remember that the path of the **mapping file is always ./mapping.ttl**. For example:
+4. Modify the config.ini file with your information. For the correspoding configurating of your RML engine, remember that the path of the **mapping file is always ./mapping.ttl**. For example:
 
 ```
 [tester]
@@ -54,7 +54,7 @@ engine_command: python3 rdfizer/run_rdfizer.py config.ini # command to run your 
 ```
 
 5. Run the script `python3 test.py config.ini`
-6. Your results will appear in `results.ttl` in RDF and in `results.csv` in CSV.
+6. Your results will appear in `results` folder as `results.ttl` in RDF and in `results.csv` in CSV.
 7. Upload or update the obtained results the access point you have provided in the configuration step.
 8. For each new version of your engine, repeat the process from step 4 to 7.
 

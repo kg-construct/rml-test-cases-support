@@ -16,7 +16,7 @@ def media_type_from_source(source_type):
         return "\"application/json\" ."
     elif source_type == "xml":
         return "\"application/xml\" ."
-    elif source_type == "mysql" or source_type == "postgresql":
+    elif source_type == "mysql" or source_type == "postgresql" or source_type == "sqlserver":
         return "\"application/sql\" .\n \tFILTER (regex(?test_id,\"" + source_type + "\",\"i\"))"
     elif source_type == "sparql":
         return "\"text/turtle\" ."
@@ -169,9 +169,13 @@ def write_results():
         writer = csv.writer(file)
         writer.writerows(results)
 
+
     os.system("rm " + config["properties"]["output_results"])
-    os.system("rm *.csv *.json *.xml *.sql mapping.ttl output.nq")
     os.system("java -jar rmlmapper.jar -m rules.ttl -o results.nt -d")
+    os.system("mv results.nt results/")
+    os.system("mv results.csv results/")
+    os.system("rm *.csv *.json *.xml *.sql mapping.ttl output.nq")
+
 
 
 if __name__ == "__main__":
