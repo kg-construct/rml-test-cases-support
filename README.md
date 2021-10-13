@@ -22,7 +22,7 @@ Test the capabilities of your RML engine with the [RML test cases](http://rml.io
 
 Connection properties for any RDBMS are: `database = rml, user = rml, password = rml`.
 
-For testing purposes, **mapping path is invariable, it is always `./mapping.ttl`**
+For testing purposes, **mapping path is invariable, it is always `./mapping.ttl`** and **the base IRI of the output is http://example.com/base/**
 
 
 ## Steps to generate the results from the RML test-cases:
