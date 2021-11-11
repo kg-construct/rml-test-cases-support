@@ -19,7 +19,7 @@ def media_type_from_source(source_type):
     elif source_type == "mysql" or source_type == "postgresql" or source_type == "sqlserver":
         return "\"application/sql\" .\n \tFILTER (regex(?test_id,\"" + source_type + "\",\"i\"))"
     elif source_type == "sparql":
-        return "\"text/turtle\" ."
+        return "\"text/turtle\" .\n \tFILTER (regex(?name_dist,\"input\",\"i\"))"
     else:
         print("Provide a correct source type")
         sys.exit()
@@ -32,6 +32,7 @@ def get_query_for_source_type(source_type):
         ?test_uri <http://purl.org/dc/terms/hasPart> ?part .
         ?part rdf:type <http://www.w3.org/ns/dcat#Dataset> .
         ?part <http://www.w3.org/ns/dcat#distribution> ?dist .
+        ?dist <http://schema.org/name> ?name_dist .
         ?dist <http://www.w3.org/ns/dcat#mediaType> """ + media_type_from_source(source_type) + """
     } ORDER BY ?test_uri"""
 
@@ -68,7 +69,7 @@ def run_test(t_identifier, expected_output, source_type):
         expected_output_graph.parse("./output.nq", format="nquads")
 
     os.system("mkdir results/" + t_identifier)
-    os.system(config["properties"]["engine_command"] + " > results/" + t_identifier + "/" + source_type + ".log")
+    os.system(config["properties"]["engine_command"] + " &> results/" + t_identifier + "/" + source_type + ".log")
 
     # if there is output file
     if os.path.isfile(config["properties"]["output_results"]):
